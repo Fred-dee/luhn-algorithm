@@ -2,6 +2,7 @@ package fred.dilapisho;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -11,19 +12,20 @@ public class Validate {
 	public static boolean validate(String n) {
 		checkArgument(!checkNotNull(n).isEmpty());
 		int offset;
-		int index = 0;
+		final AtomicInteger index = new AtomicInteger();
 		final List<Integer> integerArrayList = new ArrayList<>();
 		if (isEven(n)) {
 			offset = 0;
 		} else {
 			offset = 1;
 		}
-		Stream.of(n).forEach(num -> {
-					if (isEven(index + offset)) {
+		Stream.of(n.trim()).forEach(num -> {
+					if (isEven(index.get() + offset)) {
 						integerArrayList.add(multiplyAndCalculate(num));
 					} else {
 						integerArrayList.add(Integer.parseInt(num));
 					}
+					index.getAndIncrement();
 				}
 		);
 		final int sum = integerArrayList.stream().mapToInt(a -> a).sum();

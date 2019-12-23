@@ -9,4 +9,9 @@ public class ValidateTest{
 	public void test891(){
 		assertFalse(Validate.validate("891"));
 	}
+
+	@Test
+	public void test2626262626262626(){
+		assertFalse(Validate.validate("2626262626262626"));
+	}
 }
