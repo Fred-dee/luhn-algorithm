@@ -3,28 +3,27 @@ package fred.dilapisho;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Validate {
+
+	private static final int charOffset = 48;
 	public static boolean validate(String n) {
 		checkArgument(!checkNotNull(n).isEmpty());
-		int offset;
-		final AtomicInteger index = new AtomicInteger();
+
+		int offset = (isEven(n)) ? 0 : 1;
+		final AtomicInteger index = new AtomicInteger(0);
 		final List<Integer> integerArrayList = new ArrayList<>();
-		if (isEven(n)) {
-			offset = 0;
-		} else {
-			offset = 1;
-		}
-		Stream.of(n.trim()).forEach(num -> {
+		n.chars().forEachOrdered(
+				num -> {
 					if (isEven(index.get() + offset)) {
 						integerArrayList.add(multiplyAndCalculate(num));
 					} else {
-						integerArrayList.add(Integer.parseInt(num));
+						integerArrayList.add(num - charOffset);
 					}
+
 					index.getAndIncrement();
 				}
 		);
@@ -40,9 +39,9 @@ public class Validate {
 		return (n % 2 == 0);
 	}
 
-	private static int multiplyAndCalculate(final String num) {
-		final int converted = Integer.parseInt(num);
-		int calculated = converted * 2;
+	private static int multiplyAndCalculate(final int num) {
+
+		int calculated = (num - charOffset) * 2;
 		if (calculated > 9) {
 			return (calculated - 9);
 		} else {

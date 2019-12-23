@@ -116,3 +116,7 @@ fabric.properties
 .idea/jarRepositories.xml
 .idea/misc.xml
 .idea/vcs.xml
+modules/app/build/generated/
+modules/app/build/reports/
+modules/app/build/test-results/
+modules/app/build/tmp/
